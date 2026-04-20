@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load i18n markdownify %}
+
+{% block content %}
+<article class="max-w-3xl mx-auto">
+    <div class="mb-8">
+        <a href="{% url 'article_list' %}" class="text-sm font-bold text-emerald-700 hover:text-emerald-900 transition-colors uppercase tracking-widest">
+            ← {% trans "Back to Articles" %}
+        </a>
+    </div>
+
+    <header class="mb-12">
+        <div class="flex items-center space-x-2 text-sm mb-3">
+            <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full font-bold uppercase tracking-tighter text-xs">
+                {{ article.category.translated_name }}
+            </span>
+            <span class="text-slate-400">|</span>
+            <span class="text-slate-500 italic">{{ article.created_at|date:"F d, Y" }}</span>
+        </div>
+        
+        <h1 class="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
+            {{ article.translated_title }}
+        </h1>
+        
+        <div class="mt-6 flex flex-wrap gap-2">
+            {% for tag in article.tags.split %}
+                <span class="text-slate-400 text-sm font-mono">{{ tag }}</span>
+            {% endfor %}
+        </div>
+    </header>
+
+    <div class="prose prose-slate prose-emerald lg:prose-xl max-w-none border-t border-slate-100 pt-10">
+        {{ article.translated_content|markdownify }}
+    </div>
+
+    <footer class="mt-20 pt-10 border-t border-slate-200">
+        <div class="bg-slate-100 p-8 rounded-2xl flex flex-col md:flex-row justify-between items-center">
+            <p class="text-slate-600 italic">{% trans "Thank you for reading this analysis." %}</p>
+            <div class="mt-4 md:mt-0">
+                <a href="/" class="px-6 py-2 bg-emerald-700 text-white font-bold rounded-lg hover:bg-emerald-800 transition-colors">
+                    {% trans "Contact Me" %}
+                </a>
+            </div>
+        </div>
+    </footer>
+</article>
+{% endblock %}

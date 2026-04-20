@@ -1,0 +1,54 @@
+{% load static tailwind_tags i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}IR & ML Portfolio{% endblock %}</title>
+    {% tailwind_css %}
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Lora', serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+    
+    <div class="h-1 bg-emerald-600 w-full"></div>
+
+    <nav class="p-6 border-b border-slate-200 bg-white sticky top-0 z-50 shadow-sm">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <a href="/" class="text-xl font-bold tracking-tight text-slate-800 hover:text-emerald-700 transition-colors">
+                Your Name
+            </a>
+            
+            <div class="flex items-center space-x-8">
+                <div class="hidden md:flex space-x-6 font-medium text-slate-600">
+                    <a href="{% url 'home' %}" class="hover:text-emerald-700 transition-colors">{% trans "About" %}</a>
+                    <a href="{% url 'project_list' %}" class="hover:text-emerald-700 transition-colors">{% trans "Portfolio" %}</a>
+                    <a href="{% url 'article_list' %}" class="hover:text-emerald-700 transition-colors">{% trans "Articles" %}</a>
+                </div>
+
+                <div class="flex items-center space-x-2 border-l pl-6 border-slate-200 text-sm font-bold">
+                    <form action="{% url 'set_language' %}" method="post" class="flex space-x-2">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                        <button name="language" value="en" class="hover:text-emerald-600 {% if LANGUAGE_CODE == 'en' %}text-emerald-600 underline{% endif %}">EN</button>
+                        <button name="language" value="tr" class="hover:text-emerald-600 {% if LANGUAGE_CODE == 'tr' %}text-emerald-600 underline{% endif %}">TR</button>
+                        <button name="language" value="ru" class="hover:text-emerald-600 {% if LANGUAGE_CODE == 'ru' %}text-emerald-600 underline{% endif %}">RU</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto p-6 mt-12 mb-20">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="border-t border-slate-200 p-8 text-center text-slate-500 text-sm">
+        &copy; 2026 | International Relations & Machine Learning Portfolio
+    </footer>
+</body>
+</html>

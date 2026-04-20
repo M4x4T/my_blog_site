@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load i18n markdownify %}
+
+{% block content %}
+<h2 class="text-3xl font-bold text-slate-900 mb-8 underline decoration-emerald-500 decoration-4 underline-offset-8">
+    {% trans "Articles & Analysis" %}
+</h2>
+
+<div class="space-y-10">
+    {% for article in articles %}
+    <article class="group">
+        <span class="text-xs font-bold tracking-widest text-emerald-700 uppercase">
+            {{ article.category.translated_name }}
+        </span>
+        
+        <h3 class="text-2xl font-bold mt-1 group-hover:text-emerald-700 transition-colors">
+            <a href="{% url 'article_detail' article.slug %}">
+                {{ article.translated_title }}
+            </a>
+        </h3>
+        
+        <p class="text-slate-500 text-sm mt-1">{{ article.created_at|date:"M d, Y" }} — {{ article.tags }}</p>
+        
+        <p class="text-slate-600 mt-3 line-clamp-2 italic leading-relaxed">
+            {{ article.translated_content|markdownify|truncatewords:30 }}
+        </p>
+    </article>
+    {% empty %}
+    <p class="text-slate-500">{% trans "No articles published yet." %}</p>
+    {% endfor %}
+</div>
+{% endblock %}

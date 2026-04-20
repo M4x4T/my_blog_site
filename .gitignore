@@ -1,0 +1,7 @@
+*.pyc
+__pycache__/
+db.sqlite3
+.env
+venc/
+my_site/  # If this is your virtual env folder
+.DS_Store
