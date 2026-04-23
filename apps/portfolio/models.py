@@ -24,10 +24,15 @@ class Project(models.Model):
     @property
     def translated_title(self):
         lang = get_language()
+        if lang:
+            lang = lang.split('-')[0]
         # Returns the requested language, or falls back to English
         return getattr(self, f'title_{lang}', self.title_en) or self.title_en
 
     @property
     def translated_description(self):
+        
         lang = get_language()
+        if lang:
+            lang = lang.split('-')[0]
         return getattr(self, f'description_{lang}', self.description_en) or self.description_en

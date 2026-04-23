@@ -19,3 +19,6 @@ env/
 
 # Tailwind node modules
 node_modules/
+
+*.egg-info/
+dist/

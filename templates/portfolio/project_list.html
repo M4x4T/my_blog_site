@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
 {% load i18n %}
-
 {% block content %}
 <h2 class="text-3xl font-bold text-slate-900 mb-8 underline decoration-emerald-500 decoration-4 underline-offset-8">
     {% trans "Machine Learning & Analytic Works" %}
 </h2>
-
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
     {% for project in projects %}
     <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
@@ -13,26 +11,22 @@
             <h3 class="text-xl font-bold text-slate-900">
                 {{ project.translated_title }}
             </h3>
-            
             <p class="text-emerald-700 text-xs font-mono mt-1 font-bold uppercase tracking-tighter">
                 {{ project.tools_used }}
             </p>
-
             <p class="text-slate-600 mt-4 text-sm leading-relaxed">
                 {{ project.translated_description }}
             </p>
         </div>
-
         <div class="mt-6 pt-4 border-t border-slate-100 flex space-x-4">
             {% if project.github_url %}
             <a href="{{ project.github_url }}" target="_blank" class="text-xs font-bold text-slate-900 hover:text-emerald-600 flex items-center">
-                CODE →
+                CODE &rarr;
             </a>
             {% endif %}
-            
             {% if project.notebook_url %}
             <a href="{{ project.notebook_url }}" target="_blank" class="text-xs font-bold text-emerald-700 hover:text-emerald-900 flex items-center">
-                NOTEBOOK (Colab) →
+                NOTEBOOK (Colab) &rarr;
             </a>
             {% endif %}
         </div>
