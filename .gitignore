@@ -1,7 +1,21 @@
-*.pyc
-__pycache__/
-db.sqlite3
+# Environment variables - never commit this!
 .env
-venc/
-my_site/  # If this is your virtual env folder
-.DS_Store
+
+# Database
+db.sqlite3
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# VS Code
+.vscode/
+
+# Tailwind node modules
+node_modules/

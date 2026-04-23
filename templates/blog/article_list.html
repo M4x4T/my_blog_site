@@ -12,15 +12,17 @@
         <span class="text-xs font-bold tracking-widest text-emerald-700 uppercase">
             {{ article.category.translated_name }}
         </span>
-        
+
         <h3 class="text-2xl font-bold mt-1 group-hover:text-emerald-700 transition-colors">
             <a href="{% url 'article_detail' article.slug %}">
                 {{ article.translated_title }}
             </a>
         </h3>
-        
-        <p class="text-slate-500 text-sm mt-1">{{ article.created_at|date:"M d, Y" }} — {{ article.tags }}</p>
-        
+
+        <p class="text-slate-500 text-sm mt-1">
+            {{ article.created_at|date:"M d, Y" }} — {{ article.tags }}
+        </p>
+
         <p class="text-slate-600 mt-3 line-clamp-2 italic leading-relaxed">
             {{ article.translated_content|markdownify|truncatewords:30 }}
         </p>

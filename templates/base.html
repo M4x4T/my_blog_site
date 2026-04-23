@@ -19,7 +19,7 @@
     <nav class="p-6 border-b border-slate-200 bg-white sticky top-0 z-50 shadow-sm">
         <div class="max-w-5xl mx-auto flex justify-between items-center">
             <a href="/" class="text-xl font-bold tracking-tight text-slate-800 hover:text-emerald-700 transition-colors">
-                Your Name
+                Maxat Annageldiyev
             </a>
             
             <div class="flex items-center space-x-8">
@@ -32,7 +32,7 @@
                 <div class="flex items-center space-x-2 border-l pl-6 border-slate-200 text-sm font-bold">
                     <form action="{% url 'set_language' %}" method="post" class="flex space-x-2">
                         {% csrf_token %}
-                        <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                        <input name="next" type="hidden" value="/">
                         <button name="language" value="en" class="hover:text-emerald-600 {% if LANGUAGE_CODE == 'en' %}text-emerald-600 underline{% endif %}">EN</button>
                         <button name="language" value="tr" class="hover:text-emerald-600 {% if LANGUAGE_CODE == 'tr' %}text-emerald-600 underline{% endif %}">TR</button>
                         <button name="language" value="ru" class="hover:text-emerald-600 {% if LANGUAGE_CODE == 'ru' %}text-emerald-600 underline{% endif %}">RU</button>
