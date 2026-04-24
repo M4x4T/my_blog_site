@@ -10,68 +10,104 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         h1, h2, h3 { font-family: 'Lora', serif; }
+
+        /* Mobile menu styles - plain CSS, no Tailwind needed */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px;
+            background: none;
+            border: none;
+        }
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background-color: #1e293b;
+        }
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            padding-top: 16px;
+            margin-top: 16px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .mobile-menu a {
+            font-weight: 500;
+            color: #475569;
+            text-decoration: none;
+        }
+        .mobile-menu a:hover { color: #059669; }
+        .mobile-menu.open { display: flex; }
+        .mobile-lang {
+            display: flex;
+            gap: 16px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .desktop-nav { display: none !important; }
+            .desktop-lang { display: none !important; }
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
-    
-    <div class="h-1 bg-emerald-600 w-full"></div>
 
+    <div class="h-1 bg-emerald-600 w-full"></div>
     <nav class="p-6 border-b border-slate-200 bg-white sticky top-0 z-50 shadow-sm">
-    <div class="max-w-5xl mx-auto flex justify-between items-center">
-        <a href="/" class="text-xl font-bold tracking-tight text-slate-800 hover:text-emerald-700 transition-colors">
-            Maxat Annageldiyev
-        </a>
-        <div class="flex items-center space-x-4">
-            <!-- Hamburger button (mobile only) -->
-            <button id="menu-toggle" class="md:hidden flex flex-col space-y-1.5 p-2">
-                <span class="block w-6 h-0.5 bg-slate-800"></span>
-                <span class="block w-6 h-0.5 bg-slate-800"></span>
-                <span class="block w-6 h-0.5 bg-slate-800"></span>
-            </button>
-            <!-- Desktop nav -->
-            <div class="hidden md:flex space-x-6 font-medium text-slate-600">
-                <a href="{% url 'home' %}" class="hover:text-emerald-700 transition-colors">{% trans "About" %}</a>
-                <a href="{% url 'project_list' %}" class="hover:text-emerald-700 transition-colors">{% trans "Portfolio" %}</a>
-                <a href="{% url 'article_list' %}" class="hover:text-emerald-700 transition-colors">{% trans "Articles" %}</a>
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <a href="/" class="text-xl font-bold tracking-tight text-slate-800 hover:text-emerald-700 transition-colors">
+                Maxat Annageldiyev
+            </a>
+            <div class="flex items-center" style="gap: 24px;">
+                <!-- Desktop nav -->
+                <div class="desktop-nav hidden md:flex space-x-6 font-medium text-slate-600">
+                    <a href="{% url 'home' %}" class="hover:text-emerald-700 transition-colors">{% trans "About" %}</a>
+                    <a href="{% url 'project_list' %}" class="hover:text-emerald-700 transition-colors">{% trans "Portfolio" %}</a>
+                    <a href="{% url 'article_list' %}" class="hover:text-emerald-700 transition-colors">{% trans "Articles" %}</a>
+                </div>
+                <!-- Desktop language switcher -->
+                <div class="desktop-lang hidden md:flex items-center space-x-2 border-l pl-6 border-slate-200 text-sm font-bold">
+                    <form action="{% url 'set_language' %}" method="post" class="flex space-x-2">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="/">
+                        <button name="language" value="en" class="hover:text-emerald-600 {% if LANGUAGE_CODE == 'en' %}text-emerald-600 underline{% endif %}">EN</button>
+                        <button name="language" value="tr" class="hover:text-emerald-600 {% if LANGUAGE_CODE == 'tr' %}text-emerald-600 underline{% endif %}">TR</button>
+                        <button name="language" value="ru" class="hover:text-emerald-600 {% if LANGUAGE_CODE == 'ru' %}text-emerald-600 underline{% endif %}">RU</button>
+                    </form>
+                </div>
+                <!-- Hamburger button (mobile only) -->
+                <button class="hamburger" id="menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
-            <!-- Language switcher -->
-            <div class="hidden md:flex items-center space-x-2 border-l pl-6 border-slate-200 text-sm font-bold">
-                <form action="{% url 'set_language' %}" method="post" class="flex space-x-2">
+        </div>
+
+        <!-- Mobile menu -->
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="{% url 'home' %}">{% trans "About" %}</a>
+            <a href="{% url 'project_list' %}">{% trans "Portfolio" %}</a>
+            <a href="{% url 'article_list' %}">{% trans "Articles" %}</a>
+            <div class="mobile-lang">
+                <form action="{% url 'set_language' %}" method="post" style="display:flex; gap:16px;">
                     {% csrf_token %}
                     <input name="next" type="hidden" value="/">
-                    <button name="language" value="en" class="hover:text-emerald-600 {% if LANGUAGE_CODE == 'en' %}text-emerald-600 underline{% endif %}">EN</button>
-                    <button name="language" value="tr" class="hover:text-emerald-600 {% if LANGUAGE_CODE == 'tr' %}text-emerald-600 underline{% endif %}">TR</button>
-                    <button name="language" value="ru" class="hover:text-emerald-600 {% if LANGUAGE_CODE == 'ru' %}text-emerald-600 underline{% endif %}">RU</button>
+                    <button name="language" value="en" style="font-weight:700; {% if LANGUAGE_CODE == 'en' %}color:#059669; text-decoration:underline;{% endif %}">EN</button>
+                    <button name="language" value="tr" style="font-weight:700; {% if LANGUAGE_CODE == 'tr' %}color:#059669; text-decoration:underline;{% endif %}">TR</button>
+                    <button name="language" value="ru" style="font-weight:700; {% if LANGUAGE_CODE == 'ru' %}color:#059669; text-decoration:underline;{% endif %}">RU</button>
                 </form>
             </div>
         </div>
-    </div>
-
-    <!-- Mobile menu (hidden by default) -->
-    <div id="mobile-menu" class="hidden md:hidden mt-4 border-t border-slate-100 pt-4 space-y-3 font-medium text-slate-600">
-        <a href="{% url 'home' %}" class="block hover:text-emerald-700 transition-colors">{% trans "About" %}</a>
-        <a href="{% url 'project_list' %}" class="block hover:text-emerald-700 transition-colors">{% trans "Portfolio" %}</a>
-        <a href="{% url 'article_list' %}" class="block hover:text-emerald-700 transition-colors">{% trans "Articles" %}</a>
-        <!-- Language switcher on mobile -->
-        <div class="pt-3 border-t border-slate-100">
-            <form action="{% url 'set_language' %}" method="post" class="flex space-x-4 text-sm font-bold">
-                {% csrf_token %}
-                <input name="next" type="hidden" value="/">
-                <button name="language" value="en" class="hover:text-emerald-600 {% if LANGUAGE_CODE == 'en' %}text-emerald-600 underline{% endif %}">EN</button>
-                <button name="language" value="tr" class="hover:text-emerald-600 {% if LANGUAGE_CODE == 'tr' %}text-emerald-600 underline{% endif %}">TR</button>
-                <button name="language" value="ru" class="hover:text-emerald-600 {% if LANGUAGE_CODE == 'ru' %}text-emerald-600 underline{% endif %}">RU</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Hamburger toggle script -->
-    <script>
-        document.getElementById('menu-toggle').addEventListener('click', function() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        });
-    </script>
-</nav>
+    </nav>
 
     <main class="max-w-4xl mx-auto p-6 mt-12 mb-20">
         {% block content %}
@@ -81,5 +117,11 @@
     <footer class="border-t border-slate-200 p-8 text-center text-slate-500 text-sm">
         &copy; 2026 | International Relations & Machine Learning Portfolio
     </footer>
+
+    <script>
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('open');
+        });
+    </script>
 </body>
 </html>
