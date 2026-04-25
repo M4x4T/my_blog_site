@@ -102,3 +102,27 @@ STORAGES = {
 
 
 TAILWIND_APP_NAME = 'theme'
+
+# Markdownify settings
+MARKDOWNIFY = {
+    "default": {
+        "WHITELIST_TAGS": [
+            "a", "abbr", "acronym", "b", "blockquote", "code",
+            "em", "i", "li", "ol", "ul", "p", "strong",
+            "h1", "h2", "h3", "h4", "h5", "h6",
+            "pre", "hr", "br", "table", "thead", "tbody",
+            "tr", "th", "td",
+        ],
+        #  THIS enables clickable links
+        "WHITELIST_ATTRS": {   
+            "a": ["href", "title", "target"],
+            "img": ["src", "alt"],
+        },
+        "MARKDOWN_EXTENSIONS": [
+            "markdown.extensions.extra",
+            "markdown.extensions.codehilite",
+            "markdown.extensions.toc",
+        ],
+        "STRIP": False,
+    }
+}
